@@ -25,8 +25,8 @@ class ProfileView extends StatelessWidget {
             height: 16,
           ),
           Text(
-            '<display name>',
-            // controller.googleAccount.value?.displayName ?? '',
+            // '<display name>',
+            controller.googleAccount.value?.displayName ?? '',
             style: Get.textTheme.headline4,
             textAlign: TextAlign.center,
           ),
@@ -34,8 +34,8 @@ class ProfileView extends StatelessWidget {
             height: 16,
           ),
           Text(
-            '<display email>',
-            // controller.googleAccount.value?.email ?? '',
+            // '<display email>',
+            controller.googleAccount.value?.email ?? '',
             style: Get.textTheme.bodyText1,
             textAlign: TextAlign.center,
           ),
@@ -55,8 +55,8 @@ class ProfileView extends StatelessWidget {
           ActionChip(
             label: const Text('Logout'),
             onPressed: () {
+              controller.logout();
               Get.back();
-              // controller.logout();
             },
             avatar: const Icon(Icons.logout),
           )

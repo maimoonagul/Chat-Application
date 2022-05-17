@@ -1,12 +1,16 @@
+import 'package:chat_application/view/profile_view.dart';
 import 'package:chat_application/view/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../controller/signin_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SigninController controller = Get.put(SigninController());
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -78,8 +82,8 @@ class SignUpScreen extends StatelessWidget {
                   child: ElevatedButton(
                     child: const Text('Sign Up'),
                     onPressed: () {
-                      Get.back();
-                      // Get.to(() => SigninScreen());
+                      Get.to(ProfileView());
+                     
                     },
                   )),
               Row(
@@ -91,15 +95,17 @@ class SignUpScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      //signup screen
-                      Get.back();
+                       Get.to(() => SigninScreen());
                     },
                   )
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
               FloatingActionButton.extended(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await controller.login();
+                    Get.to(ProfileView());
+                  },
                   label: const Text('Sign Up with Google'),
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,

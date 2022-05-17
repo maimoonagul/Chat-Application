@@ -91,16 +91,11 @@ class SigninScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
             FloatingActionButton.extended(
-                onPressed: () {
-                  // print('::::::::::::::::::::::::ONPRESSED CALLED::::::::::::::::::::::::::::::::::::');
-                  // GoogleSignIn().signIn();
-                  // if (controller.googleAccount.value == null) {
-                  //   //error message
-                  // } else {
-                  //   Get.to(ProfileView());
-                  // }
+                onPressed: () async {
+                  await controller.login();
+                  Get.to(() => ProfileView());
                 },
-                label: const Text('Sign in with Google'),
+                label: const Text('Sign In with Google'),
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
                 icon: Image.asset(
