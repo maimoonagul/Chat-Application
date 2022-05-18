@@ -27,14 +27,14 @@ class HomeScreen extends StatelessWidget {
                 )),
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                 child: const Text(
                   'Welcome to Instant Messaging!',
                   style: TextStyle(fontSize: 16),
                 )),
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 60, 10, 10),
                 child: const Text(
                   'Sign In to an existing account!',
                   style: TextStyle(
@@ -54,6 +54,30 @@ class HomeScreen extends StatelessWidget {
                     Get.to(() => SigninScreen());
                   },
                 )),
+            Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, top: 10, bottom: 0),
+                child: Row(children: <Widget>[
+                  Expanded(
+                      child: Divider(
+                    color: Colors.grey[700],
+                    thickness: 1,
+                    indent: 2,
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+                    child: Text("Or",
+                        style:
+                            TextStyle(color: Colors.grey[700], fontSize: 18)),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey[700],
+                      thickness: 1,
+                      indent: 2,
+                    ),
+                  )
+                ])),
             Row(
               children: <Widget>[
                 const Text('Does not have an account?'),

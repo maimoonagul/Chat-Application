@@ -1,18 +1,51 @@
+import 'dart:async';
+
 import 'package:chat_application/view/profile_view.dart';
 import 'package:chat_application/view/reset_password_view.dart';
 import 'package:chat_application/view/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../controller/signin_controller.dart';
+import '../controller/auth_controller.dart';
 
 class SigninScreen extends StatelessWidget {
   SigninScreen({Key? key}) : super(key: key);
   final controller =
-      Get.put(SigninController()); //create instance of controller in view
+      Get.put(AuthController()); //create instance of controller in view
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+//Email TextField
+    final email = TextField(
+      autofocus: false,
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Email',
+        prefixIcon: const Icon(Icons.mail),
+      ),
+    );
+//Password TextField
+    final password = TextField(
+      autofocus: false,
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      controller: passwordController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Password',
+        prefixIcon: const Icon(Icons.vpn_key),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -36,26 +69,17 @@ class SigninScreen extends StatelessWidget {
                   'Sign In',
                   style: TextStyle(fontSize: 20),
                 )),
+
+            //Email Field
             Container(
               padding: const EdgeInsets.all(10),
-              child: const TextField(
-                // controller: nameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'User Name',
-                ),
-              ),
+              child: email,
             ),
+
+            //Password Field
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: const TextField(
-                obscureText: true,
-                //controller: passwordController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
+              child: password,
             ),
             TextButton(
               onPressed: () {
@@ -71,8 +95,48 @@ class SigninScreen extends StatelessWidget {
                 child: ElevatedButton(
                   child: const Text('Sign In'),
                   onPressed: () {
-                    Get.to(() => ProfileView());
+                    // controller.register(emailController, passwordController);
+                    // Get.to(() => ProfileView());
                   },
+                )),
+
+            //Divider
+            Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, top: 10, bottom: 0),
+                child: Row(children: <Widget>[
+                  Expanded(
+                      child: Divider(
+                    color: Colors.grey[700],
+                    thickness: 1,
+                    indent: 2,
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+                    child: Text("Or",
+                        style:
+                            TextStyle(color: Colors.grey[700], fontSize: 18)),
+                  ),
+                  Expanded(
+                      child: Divider(
+                    color: Colors.grey[700],
+                    thickness: 1,
+                    indent: 2,
+                  ),
+                  )
+                ])),
+            FloatingActionButton.extended(
+                onPressed: () async {
+                  await controller.login();
+                  Get.to(() => ProfileView());
+                },
+                label: const Text('Sign In with Google'),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                icon: Image.asset(
+                  'assets/images/google.png',
+                  height: 32,
+                  width: 32,
                 )),
             Row(
               children: <Widget>[
@@ -90,19 +154,6 @@ class SigninScreen extends StatelessWidget {
               ],
               mainAxisAlignment: MainAxisAlignment.center,
             ),
-            FloatingActionButton.extended(
-                onPressed: () async {
-                  await controller.login();
-                  Get.to(() => ProfileView());
-                },
-                label: const Text('Sign In with Google'),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                icon: Image.asset(
-                  'assets/images/google.png',
-                  height: 32,
-                  width: 32,
-                )),
           ],
         ),
       ),

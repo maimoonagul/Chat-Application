@@ -1,12 +1,11 @@
+import 'package:chat_application/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../controller/signin_controller.dart';
 import 'chats_view.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({Key? key}) : super(key: key);
-  final controller = Get.put(SigninController());
+  final controller = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

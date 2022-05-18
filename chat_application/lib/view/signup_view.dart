@@ -3,14 +3,61 @@ import 'package:chat_application/view/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/signin_controller.dart';
+import '../controller/auth_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SigninController controller = Get.put(SigninController());
+    var nameController = TextEditingController();
+    var emailController = TextEditingController();
+    var passwordController = TextEditingController();
+    final controller = Get.put(AuthController());
+    //Username
+    final username = TextField(
+      autofocus: false,
+      controller: nameController,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'User Name',
+        prefixIcon: const Icon(Icons.person),
+      ),
+    );
+
+    //Email
+    final email = TextField(
+      autofocus: false,
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Email',
+        prefixIcon: const Icon(Icons.mail),
+      ),
+    );
+
+    //Password
+    final password = TextField(
+      autofocus: false,
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      controller: passwordController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Password',
+        prefixIcon: const Icon(Icons.vpn_key),
+      ),
+    );
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -36,45 +83,16 @@ class SignUpScreen extends StatelessWidget {
                   )),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: const TextField(
-                  // controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                  ),
-                ),
+                child: username,
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: const TextField(
-                  // controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                  ),
-                ),
+                child: email,
               ),
+
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: const TextField(
-                  // controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Phone Number',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: const TextField(
-                  obscureText: true,
-                  //controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                ),
+                child: password,
               ),
               Container(
                   height: 50,
@@ -82,25 +100,35 @@ class SignUpScreen extends StatelessWidget {
                   child: ElevatedButton(
                     child: const Text('Sign Up'),
                     onPressed: () {
-                      Get.to(ProfileView());
-                     
+                      controller.register(emailController, passwordController);
+                      // Get.to(ProfileView());
                     },
                   )),
-              Row(
-                children: <Widget>[
-                  const Text('Already have an account?'),
-                  TextButton(
-                    child: const Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 20),
+//Divider
+              Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20.0, top: 10, bottom: 0),
+                  child: Row(children: <Widget>[
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey[700],
+                      thickness: 1,
+                      indent: 2,
+                    )),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+                      child: Text("Or",
+                          style:
+                              TextStyle(color: Colors.grey[700], fontSize: 18)),
                     ),
-                    onPressed: () {
-                       Get.to(() => SigninScreen());
-                    },
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey[700],
+                      thickness: 1,
+                      indent: 2,
+                    ))
+                  ])),
+
               FloatingActionButton.extended(
                   onPressed: () async {
                     await controller.login();
@@ -114,6 +142,21 @@ class SignUpScreen extends StatelessWidget {
                     height: 32,
                     width: 32,
                   )),
+              Row(
+                children: <Widget>[
+                  const Text('Already have an account?'),
+                  TextButton(
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Get.to(() => SigninScreen());
+                    },
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
             ],
           ),
         ));
